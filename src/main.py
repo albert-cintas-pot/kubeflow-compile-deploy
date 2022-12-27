@@ -38,7 +38,7 @@ client = kfp.Client(host=host,
 
 # Get new version name
 version_obj = client.pipelines.list_pipeline_versions(
-    resource_key_id=pipeline_id
+    resource_key_id=str(pipeline_id)
 )
 version_count = version_obj.total_size
 version = int(version_count) + 1
