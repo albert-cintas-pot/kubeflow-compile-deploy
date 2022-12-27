@@ -21,11 +21,12 @@ pipeline_name = os.getenv("PIPELINE_NAME")
 experiment_id = os.getenv("EXPERIMENT_ID")
 namespace = os.getenv("NAMESPACE")
 run_pipeline = os.getenv("RUN_PIPELINE")
-run_name = 'run-' + str(pipeline_name) + "-" + random_suffix()
 
 # Random value used for naming
 def random_suffix() -> string:
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
+
+run_name = 'run-' + str(pipeline_name) + "-" + random_suffix()
 
 # Authenticate session client
 client = kfp.Client(host=host, 
