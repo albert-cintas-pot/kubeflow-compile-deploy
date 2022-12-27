@@ -21,7 +21,7 @@ pipeline_name = os.getenv("PIPELINE_NAME")
 experiment_id = os.getenv("EXPERIMENT_ID")
 namespace = os.getenv("NAMESPACE")
 run_pipeline = os.getenv("RUN_PIPELINE")
-run_name = 'run-' + pipeline_name + "-" + random_suffix()
+run_name = 'run-' + str(pipeline_name) + "-" + random_suffix()
 
 # Random value used for naming
 def random_suffix() -> string:
