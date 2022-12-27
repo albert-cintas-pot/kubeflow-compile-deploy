@@ -1,0 +1,45 @@
+name: Deploy a Kubeflow Pipeline on GKE.
+description: Compile, deploy and run a Kubeflow Pipeline on GKE.
+author: albert-cintas-pot
+inputs:
+  kubeflow_url:
+    description: The endpoint where your Kubeflow UI is running. 
+    required: true
+  pipeline_file_path:
+    description: |
+      The full path to pipeline.py file.
+      This must be relative to the root of the GitHub repository where the Action is triggered.
+    required: true
+  pipeline_name:
+    description: The name of the pipeline.
+    required: true
+  pipeline_id:
+    description: The pipeline ID.
+    required: true
+  namespace:
+    description: The namespace in which the pipeline should run.
+    required: true
+  experiment_id:
+    description: The ID of the experiment. 
+    required: true
+  run_pipeline:
+    description: If true, your pipeline will run after uploading.
+    required: true
+  client_id:
+    description: The IAP client id, which was specified when the kubeflow deployment where setup using IAP.
+    required: true
+  other_client_id:
+    description: The other IAP client id, configured to be used for Desktop app authentication.
+    required: true
+  other_client_secret:
+    description: The other IAP client secret.
+    required: true
+outputs:
+  workflow_url:
+    description: URL link to pipeline in Kubeflow
+branding:
+  color: 'blue'
+  icon: 'upload-cloud'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
