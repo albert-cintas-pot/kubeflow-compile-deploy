@@ -22,17 +22,10 @@ experiment_id = os.getenv("EXPERIMENT_ID")
 namespace = os.getenv("NAMESPACE")
 run_pipeline = os.getenv("RUN_PIPELINE")
 
-print(type(pipeline_id))
-print(pipeline_id)
-print(type(namespace))
-print(namespace)
-print(type(pipeline_name))
-print(pipeline_name)
-
 # Random value used for naming
 def random_suffix() -> string:
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
-
+    
 run_name = 'run-' + str(pipeline_name) + "-" + random_suffix()
 
 # Authenticate session client
@@ -63,4 +56,4 @@ client.run_pipeline(
     experiment_id=experiment_id,
     job_name=run_name
 )
-logging.info(f"A run is created with: {job_name}")
+logging.info(f"A run is created with: {run_name}")
