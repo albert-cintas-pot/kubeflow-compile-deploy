@@ -22,6 +22,13 @@ experiment_id = os.getenv("EXPERIMENT_ID")
 namespace = os.getenv("NAMESPACE")
 run_pipeline = os.getenv("RUN_PIPELINE")
 
+print(type(pipeline_id))
+print(pipeline_id)
+print(type(namespace))
+print(namespace)
+print(type(pipeline_name))
+print(pipeline_name)
+
 # Random value used for naming
 def random_suffix() -> string:
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
