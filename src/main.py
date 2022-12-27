@@ -33,7 +33,7 @@ client = kfp.Client(host=host,
     client_id=client_id, 
     other_client_id=other_client_id, 
     other_client_secret=other_client_secret,
-    namespace=namespace
+    namespace=str(namespace)
 )
 
 # Get new version name
