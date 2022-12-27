@@ -35,8 +35,8 @@ inputs:
     description: The other IAP client secret.
     required: true
 outputs:
-  workflow_url:
-    description: URL link to pipeline in Kubeflow
+  run_name:
+    description: The name of the run submitted.
 branding:
   color: 'blue'
   icon: 'upload-cloud'

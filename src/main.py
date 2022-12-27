@@ -54,3 +54,4 @@ client.run_pipeline(
     experiment_id=experiment_id,
     job_name=run_name
 )
+logging.info(f"A run is created with: {job_name}")
