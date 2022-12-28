@@ -1,11 +1,11 @@
 import kfp
 import kfp.compiler as compiler
-import json
 import string
 import random
 import logging
 import sys
 import os
+import importlib.util
 
 # Setting logging level
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -16,6 +16,7 @@ client_id = os.getenv("CLIENT_ID")
 other_client_id = os.getenv("OTHER_CLIENT_ID")
 other_client_secret = os.getenv("OTHER_CLIENT_SECRET")
 pipeline_path = os.getenv("PIPELINE_FILE_PATH")
+pipeline_func_name = os.getenv("PIPELINE_FUNC_NAME")
 pipeline_id = os.getenv("PIPELINE_ID")
 pipeline_name = os.getenv("PIPELINE_NAME")
 experiment_id = os.getenv("EXPERIMENT_ID")
@@ -36,6 +37,25 @@ client = kfp.Client(host=host,
     namespace=str(namespace)
 )
 
+# Compile pipeline
+def load_pipeline_from_path(
+    pipeline_func_name: str, pipeline_path: str
+) -> staticmethod:
+    spec = importlib.util.spec_from_file_location(
+        pipeline_func_name, pipeline_path
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return getattr(module, pipeline_func_name)
+
+pipeline_function = load_pipeline_from_path(
+        pipeline_func_name=pipeline_func_name,
+        pipeline_path=pipeline_path,
+    )(github_sha)
+
+zip_name = pipeline_function.__name__ + ".zip"
+compiler.Compiler().compile(pipeline_function, zip_name)
+
 # Get new version name
 version_obj = client.pipelines.list_pipeline_versions(
     resource_key_id=str(pipeline_id)
@@ -45,7 +65,7 @@ version = int(version_count) + 1
 
 # Upload pipeline into new version
 client.pipeline_uploads.upload_pipeline_version(
-    pipeline_path,
+    zip_name,
     name=version,
     pipelineid=pipeline_id
 )

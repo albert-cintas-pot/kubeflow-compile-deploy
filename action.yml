@@ -10,6 +10,9 @@ inputs:
       The full path to pipeline.py file.
       This must be relative to the root of the GitHub repository where the Action is triggered.
     required: true
+  pipeline_func_name:
+    description: The name of the function in the pipeline to be used for compiling.
+    required: true
   pipeline_name:
     description: The name of the pipeline.
     required: true
