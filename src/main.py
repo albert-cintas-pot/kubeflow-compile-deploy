@@ -51,7 +51,7 @@ def load_pipeline_from_path(
 pipeline_function = load_pipeline_from_path(
         pipeline_func_name=pipeline_func_name,
         pipeline_path=pipeline_path,
-    )(github_sha)
+    )
 
 zip_name = pipeline_function.__name__ + ".zip"
 compiler.Compiler().compile(pipeline_function, zip_name)
