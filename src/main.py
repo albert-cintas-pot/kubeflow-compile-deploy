@@ -23,7 +23,7 @@ experiment_name = os.getenv("EXPERIMENT_NAME")
 namespace = os.getenv("NAMESPACE")
 run_pipeline = os.getenv("RUN_PIPELINE")
 
-# S
+# Set pipeline name to function name if no name is provided
 if not pipeline_name:
     pipeline_name = pipeline_func_name
 
