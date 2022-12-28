@@ -19,9 +19,13 @@ pipeline_path = os.getenv("PIPELINE_FILE_PATH")
 pipeline_func_name = os.getenv("PIPELINE_FUNC_NAME")
 pipeline_id = os.getenv("PIPELINE_ID")
 pipeline_name = os.getenv("PIPELINE_NAME")
-experiment_id = os.getenv("EXPERIMENT_ID")
+experiment_name = os.getenv("EXPERIMENT_NAME")
 namespace = os.getenv("NAMESPACE")
 run_pipeline = os.getenv("RUN_PIPELINE")
+
+# S
+if not pipeline_name:
+    pipeline_name = pipeline_func_name
 
 # Random value used for naming
 def random_suffix() -> string:
@@ -70,10 +74,18 @@ client.pipeline_uploads.upload_pipeline_version(
     pipelineid=pipeline_id
 )
 
+# Get experiment_id from experiment_name
+experiment_id = client.get_experiment(
+    experiment_name=experiment_name
+).id
+
 # Run uploaded pipeline
-client.run_pipeline(
-    pipeline_id=pipeline_id,
-    experiment_id=experiment_id,
-    job_name=run_name
-)
-logging.info(f"A run is created with: {run_name}")
+if run_pipeline:
+    client.run_pipeline(
+        pipeline_id=pipeline_id,
+        experiment_id=experiment_id,
+        job_name=run_name
+        )
+    logging.info(f"A run is created with: {run_name}")
+else:
+    logging.info(f"Version {version} has been created for pipeline: {pipeline_name}")

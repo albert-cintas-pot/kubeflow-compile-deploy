@@ -15,19 +15,19 @@ inputs:
     required: true
   pipeline_name:
     description: The name of the pipeline.
-    required: true
+    required: false
   pipeline_id:
     description: The pipeline ID.
     required: true
   namespace:
     description: The namespace in which the pipeline should run.
     required: true
-  experiment_id:
-    description: The ID of the experiment. 
+  experiment_name:
+    description: The name of the experiment. 
     required: true
   run_pipeline:
     description: If true, your pipeline will run after uploading.
-    required: true
+    required: false
   client_id:
     description: The IAP client id, which was specified when the kubeflow deployment where setup using IAP.
     required: true
