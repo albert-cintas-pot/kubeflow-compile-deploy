@@ -80,7 +80,7 @@ experiment_id = client.get_experiment(
 ).id
 
 # Run uploaded pipeline
-if run_pipeline:
+if bool(run_pipeline):
     client.run_pipeline(
         pipeline_id=pipeline_id,
         experiment_id=experiment_id,
