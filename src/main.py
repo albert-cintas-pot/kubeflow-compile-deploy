@@ -20,8 +20,7 @@ pipeline_path = os.getenv("PIPELINE_FILE_PATH")
 client = kfp.Client(host=host, 
     client_id=client_id, 
     other_client_id=other_client_id, 
-    other_client_secret=other_client_secret,
-    namespace=str(namespace)
+    other_client_secret=other_client_secret
 )
 
 # Compile pipeline
