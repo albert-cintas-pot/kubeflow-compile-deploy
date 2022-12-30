@@ -78,7 +78,7 @@ if pipeline_exists:
 
 # If the pipeline does not exist, upload new one
 else:
-    client.pipeline_uploads.upload_pipeline_version(
+    client.pipeline_uploads.upload_pipeline(
         zip_name,
         pipeline_name=pipeline_name,
     )
