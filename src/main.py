@@ -1,6 +1,5 @@
 import kfp
 import kfp.compiler as compiler
-import string
 import logging
 import sys
 import os
