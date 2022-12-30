@@ -8,26 +8,8 @@ inputs:
   pipeline_file_path:
     description: |
       The full path to pipeline.py file.
-      This must be relative to the root of the GitHub repository where the Action is triggered.
+      This is provided by a Matrix by the Github Action. Pipelines must be stored inside the /pipelines folder
     required: true
-  pipeline_func_name:
-    description: The name of the function in the pipeline to be used for compiling.
-    required: true
-  pipeline_name:
-    description: The name of the pipeline.
-    required: false
-  pipeline_id:
-    description: The pipeline ID.
-    required: true
-  namespace:
-    description: The namespace in which the pipeline should run.
-    required: true
-  experiment_name:
-    description: The name of the experiment. 
-    required: true
-  run_pipeline:
-    description: If true, your pipeline will run after uploading.
-    required: false
   client_id:
     description: The IAP client id, which was specified when the kubeflow deployment where setup using IAP.
     required: true
@@ -38,8 +20,8 @@ inputs:
     description: The other IAP client secret.
     required: true
 outputs:
-  run_name:
-    description: The name of the run submitted.
+  pipeline_name:
+    description: The name of the pipeline submitted.
 branding:
   color: 'blue'
   icon: 'upload-cloud'
