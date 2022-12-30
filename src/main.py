@@ -82,8 +82,10 @@ if pipeline_exists:
 
 # If the pipeline does not exist, upload new one
 else:
-    client.pipeline_uploads.upload_pipeline(
-        zip_name,
-        pipeline_name
-    )
+    print(zip_name)
+    print(pipeline_name)
+    #client.pipeline_uploads.upload_pipeline(
+    #    zip_name,
+    #    pipeline_name
+    #)
     logging.info(f"New pipeline '{pipeline_name}'  has been deployed")
