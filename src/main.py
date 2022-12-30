@@ -60,6 +60,8 @@ except TypeError:
     pipeline_exists = False
 
 if pipeline_exists:
+    pipeline_id = client.get_pipeline_id(pipeline_name)
+
     # Get new version name
     version_obj = client.pipelines.list_pipeline_versions(
         resource_key_id=str(pipeline_id)
@@ -67,7 +69,7 @@ if pipeline_exists:
     version_count = version_obj.total_size
     version = int(version_count) + 1
 
-    pipeline_id = client.get_pipeline_id(pipeline_name)
+    
 
     # Upload pipeline into new version
     client.pipeline_uploads.upload_pipeline_version(
@@ -82,6 +84,6 @@ if pipeline_exists:
 else:
     client.pipeline_uploads.upload_pipeline(
         zip_name,
-        pipeline_name=pipeline_name,
+        pipeline_name
     )
     logging.info(f"New pipeline '{pipeline_name}'  has been deployed")
