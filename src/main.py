@@ -66,7 +66,9 @@ if pipeline_exists:
     )
     version_count = version_obj.total_size
     version = int(version_count) + 1
-    
+
+    pipeline_id = client.get_pipeline_id(pipeline_name)
+
     # Upload pipeline into new version
     client.pipeline_uploads.upload_pipeline_version(
         zip_name,
