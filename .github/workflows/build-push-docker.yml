@@ -24,13 +24,12 @@ jobs:
       - name: Login to GAR
         uses: docker/login-action@v2
         with:
-          registry: europe-west1-docker.pkg.dev
-          username: _json_key # Not an actual user
-          password: ${{ secrets.GAR_JSON_KEY }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
-        id: docker_build_mlops
+        id: docker_build_kfp
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: europe-west1-docker.pkg.dev/pot-test-environment/pot-kubeflow-poc/kfp-sdk:${{ steps.get_version.outputs.VERSION }},europe-west1-docker.pkg.dev/pot-test-environment/pot-kubeflow-poc/kfp-sdk:latest
+          tags: albertcintaspot/kfp-sdk:${{ steps.get_version.outputs.VERSION }},albertcintaspot/kfp-sdk:latest
