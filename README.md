@@ -1,19 +1,21 @@
 # Kubeflow Pipelines Deploy Action
 
-GitHub Actions for compiling, deploying and running pipelines on GCP/GKE's full Kubeflow deploys. 
+GitHub Actions for compiling and deploying pipelines on GCP/GKE's Kubeflow instances.
+
+The action creates a new pipeline if the pipeline doesn't exist in Kubeflow. If it exists, it will create a new version.
 
 ## Workflow Configuration
 ### Parameters
 
+The action has been set up with a single input parameter:
+
 | key                       | required | description                                                                                                                  | 
 | :------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------- | 
 | PIPELINE_FILE_PATH        | True     | The full path to pipeline.py file. This must be relative to the root of the GitHub repository where the Action is triggered. | 
-| PIPELINE_FUNC_NAME        | True     | The name of the pipeline function. This name will be the name of the pipeline if the name is empty.                          | 
-| PIPELINE_ID               | True     | The ID of the pipeline. You can get it from the Kubeflow dashboard.                                                          |
-| PIPELINE_NAME             | False    | The name of the pipeline.                                                                                                    | 
-| NAMESPACE                 | True     | The namespace in which the pipeline should run.                                                                              | 
-| EXPERIMENT_NAME           | True     | The name of the experiment name within which the kubeflow pipeline should run.                                               | 
-| RUN_PIPELINE              | False    | The flag of running the pipeline. Defaults to False.                                                                         | 
+
+Pipeline name will be the same as the filename of the pipeline. IMPORTANT: Pipeline function should also have the same name.
+
+
 
 ### Authentication secrets and parameters
 
@@ -33,7 +35,7 @@ The following secrets are mandatory for proper auth:
 
 ### Usage
 
-#### Define Workflow for Run after deploy
+#### Define Workflow for single pipeline
 
 ```yaml
 name: Compile, Deploy and Run on Kubeflow
@@ -56,11 +58,72 @@ jobs:
         OTHER_CLIENT_ID: ${{ secrets.OTHER_CLIENT_ID }} # Required for AUTH
         OTHER_CLIENT_SECRET: ${{ secrets.OTHER_CLIENT_SECRET }} # Required for AUTH
         PIPELINE_FILE_PATH: "pipeline.py" # Required
-        PIPELINE_FUNC_NAME: "sample_pipeline" # Required 
-        PIPELINE_ID: "b47bfa1c-6983-4c23-9979-9a912f39e934" # Required
-        PIPELINE_NAME: "coin-flip"
-        EXPERIMENT_NAME: "Test Experiment" # Required
-        NAMESPACE: "albert-cintas"
-        RUN_PIPELINE: "True" # Defaults to False
+
+```
+
+#### Define Workflow to run for all changed pipelines in a the `pipelines` folder
+
+The following workflow will make a list of any new or modified pipeline inside a specific folder, and deploy each of them.
+```yaml
+name: Compile, Deploy and Run on Kubeflow
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'pipelines/**'
+
+jobs:
+  changed-files:
+    name: Get changed pipelines
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+    - name: Checkout files in repo
+      uses: actions/checkout@v3
+      with:
+          fetch-depth: 0
+
+    - name: Get changed files in the pipelines folder
+      id: changed-files
+      uses: tj-actions/changed-files@v35.2.0
+      with:
+        json: true
+        files: |
+          pipelines/**
+
+    - name: List all changed files
+      run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
+
+    - id: set-matrix
+      run: echo "matrix={\"container\":${{ steps.changed-files.outputs.all_changed_files }}}" >> "$GITHUB_OUTPUT"
+
+  deploy-pipelines:
+    name: Deploy changed pipelines
+    runs-on: ubuntu-latest
+    needs: [changed-files]
+
+    strategy:
+      matrix: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
+      max-parallel: 4
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Submit a pipeline
+        uses: albert-cintas-pot/kubeflow-compile-deploy@v0.2.2
+        env:
+          KUBEFLOW_URL: ${{ secrets.KUBEFLOW_URL }}
+          KFP_CREDENTIALS_JSON: ${{ secrets.KFP_CREDENTIALS_JSON }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          OTHER_CLIENT_ID: ${{ secrets.OTHER_CLIENT_ID }}
+          OTHER_CLIENT_SECRET: ${{ secrets.OTHER_CLIENT_SECRET }}
+          PIPELINE_FILE_PATH: ${{ matrix.container }}
+
 
 ```
