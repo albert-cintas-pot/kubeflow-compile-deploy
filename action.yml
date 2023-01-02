@@ -27,4 +27,4 @@ branding:
   icon: 'upload-cloud'
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'europe-west1-docker.pkg.dev/pot-test-environment/pot-kubeflow-poc/kfp-sdk:latest'
