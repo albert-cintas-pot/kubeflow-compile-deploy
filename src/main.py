@@ -15,6 +15,7 @@ client_id = os.getenv("CLIENT_ID")
 other_client_id = os.getenv("OTHER_CLIENT_ID")
 other_client_secret = os.getenv("OTHER_CLIENT_SECRET")
 pipeline_path = os.getenv("PIPELINE_FILE_PATH")
+pipeline_description = os.getenv("PIPELINE_DESCRIPTION")
 
 # Authenticate session client
 client = kfp.Client(host=host, 
@@ -72,15 +73,34 @@ if pipeline_exists:
     
 
     # Upload pipeline into new version
-    client.pipeline_uploads.upload_pipeline_version(
-        zip_name,
-        name=version,
-        pipelineid=pipeline_id
-    )
+    if pipeline_description is not None:
+        client.pipeline_uploads.upload_pipeline_version(
+            zip_name,
+            name=version,
+            pipelineid=pipeline_id,
+            pipeline_description=pipeline_description
+        )
+    else:
+        client.pipeline_uploads.upload_pipeline_version(
+            zip_name,
+            name=version,
+            pipelineid=pipeline_id
+        )
 
     logging.info(f"Version {version} has been created for pipeline: {pipeline_name}")
 
 # If the pipeline does not exist, upload new one
 else:
-    client.pipeline_uploads.upload_pipeline(zip_name,name=pipeline_name)
+    if pipeline_description is not None:
+        client.pipeline_uploads.upload_pipeline(
+            zip_name,
+            name=pipeline_name,
+            pipeline_description=pipeline_description
+        )
+    else:
+        client.pipeline_uploads.upload_pipeline(
+            zip_name,
+            name=pipeline_name
+        )
+        
     logging.info(f"New pipeline '{pipeline_name}'  has been deployed")

@@ -8,7 +8,12 @@ inputs:
   pipeline_file_path:
     description: |
       The full path to pipeline.py file.
-      This is provided by a Matrix by the Github Action. Pipelines must be stored inside the /pipelines folder
+      This is provided by a Matrix by the Github Action. Pipelines must be stored inside the /pipelines folder.
+    required: true
+  pipeline_description:
+    description: |
+      Optional description of the pipeline.
+      Can be used to override default value for instance for testing branches.
     required: true
   client_id:
     description: The IAP client id, which was specified when the kubeflow deployment where setup using IAP.

@@ -7,11 +7,12 @@ The action creates a new pipeline if the pipeline doesn't exist in Kubeflow. If 
 ## Workflow Configuration
 ### Parameters
 
-The action has been set up with a single input parameter:
+The action has been set up with only two input parameters:
 
 | key                       | required | description                                                                                                                  | 
 | :------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------- | 
-| PIPELINE_FILE_PATH        | True     | The full path to pipeline.py file. This must be relative to the root of the GitHub repository where the Action is triggered. | 
+| PIPELINE_FILE_PATH        | True     | The full path to pipeline.py file. This must be relative to the root of the GitHub repository where the Action is triggered. |
+| PIPELINE_DESCRIPTION      | False    | Optional description of the pipeline. Can be used to override default value for instance for testing branches.               |
 
 Pipeline name will be the same as the filename of the pipeline. IMPORTANT: Pipeline function should also have the same name.
 
@@ -127,3 +128,7 @@ jobs:
 
 
 ```
+
+### Docker image creation
+
+A github action has been setup in this repository to create a Docker image with KFP SDK installed for use in this action. This shaves 30 seconds of time each time a Kubeflop pipeline is deployed, helping in pipeline testing.
