@@ -83,7 +83,7 @@ if pipeline_exists:
             zip_name,
             name=version,
             pipelineid=pipeline_id,
-            pipeline_description=pipeline_description
+            description=pipeline_description
         )
     else:
         client.pipeline_uploads.upload_pipeline_version(
@@ -100,7 +100,7 @@ else:
         client.pipeline_uploads.upload_pipeline(
             zip_name,
             name=pipeline_name,
-            pipeline_description=pipeline_description
+            description=pipeline_description
         )
     else:
         client.pipeline_uploads.upload_pipeline(
