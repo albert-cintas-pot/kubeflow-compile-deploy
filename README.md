@@ -7,7 +7,7 @@ The action creates a new pipeline if the pipeline doesn't exist in Kubeflow. If 
 ## Workflow Configuration
 ### Parameters
 
-The action has been set up with only two input parameters:
+The action has been set up with only three input parameters:
 
 | key                       | required | description                                                                                                                  | 
 | :------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------- | 
