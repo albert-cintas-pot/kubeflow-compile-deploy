@@ -27,6 +27,7 @@ client = kfp.Client(host=host,
 
 # Set pipeline and function names
 pipeline_func_name = pipeline_path.split('/')[-1].rsplit('.', 1)[0]
+
 if pipeline_name_string is not None:
     pipeline_name = pipeline_func_name + '-' + pipeline_name_string
 else:
@@ -50,10 +51,6 @@ pipeline_function = load_pipeline_from_path(
 
 zip_name = pipeline_function.__name__ + ".zip"
 compiler.Compiler().compile(pipeline_function, zip_name)
-
-# Check if pipeline exists
-pipeline_name = pipeline_path.split('/')[-1].rsplit('.', 1)[0]
-pipeline_func_name = pipeline_name
 
 # Add a filter for the list_pipelines method
 filter = json.dumps({'predicates': [{'key': 'name', 'op': 1, 'string_value': '{}'.format(pipeline_name)}]})
