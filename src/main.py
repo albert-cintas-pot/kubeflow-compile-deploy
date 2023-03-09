@@ -16,6 +16,7 @@ other_client_id = os.getenv("OTHER_CLIENT_ID")
 other_client_secret = os.getenv("OTHER_CLIENT_SECRET")
 pipeline_path = os.getenv("PIPELINE_FILE_PATH")
 pipeline_description = os.getenv("PIPELINE_DESCRIPTION")
+pipeline_name_string = os.getenv("PIPELINE_NAME_STRING")
 
 # Authenticate session client
 client = kfp.Client(host=host, 
@@ -24,10 +25,14 @@ client = kfp.Client(host=host,
     other_client_secret=other_client_secret
 )
 
-# Compile pipeline
-pipeline_name = pipeline_path.split('/')[-1].rsplit('.', 1)[0]
-pipeline_func_name = pipeline_name
+# Set pipeline and function names
+pipeline_func_name = pipeline_path.split('/')[-1].rsplit('.', 1)[0]
+if pipeline_name_string is not None:
+    pipeline_name = pipeline_func_name + '-' + pipeline_name_string
+else:
+    pipeline_name = pipeline_func_name
 
+# Compile pipeline
 def load_pipeline_from_path(
     pipeline_func_name: str, pipeline_path: str
 ) -> staticmethod:

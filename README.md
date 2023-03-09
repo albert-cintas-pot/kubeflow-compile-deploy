@@ -13,8 +13,9 @@ The action has been set up with only two input parameters:
 | :------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------- | 
 | PIPELINE_FILE_PATH        | True     | The full path to pipeline.py file. This must be relative to the root of the GitHub repository where the Action is triggered. |
 | PIPELINE_DESCRIPTION      | False    | Optional description of the pipeline. Can be used to override default value for instance for testing branches.               |
+| PIPELINE_NAME_STRING      | False    | Optional string value to attach to the pipeline name. Can be used for testing purposes.                                      |
 
-Pipeline name will be the same as the filename of the pipeline. IMPORTANT: Pipeline function should also have the same name.
+Default pipeline name will be the same as the filename of the pipeline. IMPORTANT: Pipeline function should also have the same name.
 
 
 

@@ -14,7 +14,12 @@ inputs:
     description: |
       Optional description of the pipeline.
       Can be used to override default value for instance for testing branches.
-    required: true
+    required: false
+  pipeline_name_string:
+    description: |
+      Optional value to attach to the pipeline name.
+      Can be used to override default value for testing purposes, like deploying a pipeline with a commit or pull_request string in the name.
+    required: false
   client_id:
     description: The IAP client id, which was specified when the kubeflow deployment where setup using IAP.
     required: true
